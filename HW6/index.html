@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>HW6 - Caps to Front</title></head>
+<body>
+  <h1>Homework 6 — Caps to Front</h1>
+  <input id="word" value="NewYork">
+  <button onclick="run()">Move Capitals</button>
+  <p id="output"></p>
+<script>
+function capsToFront(word) {
+  const capitals = (word.match(/[A-Z]/g) || []).join("");
+  const rest = word.replace(/[A-Z]/g, "");
+  return capitals + rest;
+}
+function run(){
+  const word = document.getElementById("word").value;
+  document.getElementById("output").textContent =
+    'capsToFront("' + word + '") = "' + capsToFront(word) + '"';
+}
+run();
+</script>
+</body>
+</html>
