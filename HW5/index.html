@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>HW5 - numOfDigits</title></head>
+<body>
+  <h1>Homework 5 — Count Digits</h1>
+  <input id="number" type="number" value="10000">
+  <button onclick="run()">Count Digits</button>
+  <p id="output"></p>
+<script>
+function numOfDigits(number) {
+  // Remove a minus sign and decimal point, then count only digit characters.
+  return String(Math.abs(number)).replace(".", "").length;
+}
+function run() {
+  const value = document.getElementById("number").value;
+  document.getElementById("output").textContent =
+    "numOfDigits(" + value + ") = " + numOfDigits(value);
+}
+run();
+</script>
+</body>
+</html>
