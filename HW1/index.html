@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HW1 - Calculator</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f2f2f2}
+    .calculator{width:260px;margin:60px auto;padding:20px;background:white;border:1px solid #aaa;border-radius:8px}
+    #display{box-sizing:border-box;width:100%;height:48px;margin-bottom:12px;font-size:24px;text-align:right;padding:8px}
+    .keys{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+    button{height:44px;font-size:18px}
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>Simple Calculator</h2>
+    <input id="display" type="text" value="0" readonly>
+    <div class="keys">
+      <button>7</button><button>8</button><button>9</button><button>÷</button>
+      <button>4</button><button>5</button><button>6</button><button>×</button>
+      <button>1</button><button>2</button><button>3</button><button>−</button>
+      <button>0</button><button>.</button><button>=</button><button>+</button>
+    </div>
+    <p><small>HW1 focuses on the HTML5 structure and CSS3 appearance. JavaScript functionality is added in HW3.</small></p>
+  </div>
+</body>
+</html>
