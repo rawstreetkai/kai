@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HW3 - JavaScript Calculator</title>
+  <style>
+    body{font-family:Arial,sans-serif;background:#f2f2f2}
+    .calculator{width:280px;margin:60px auto;padding:20px;background:white;border:1px solid #aaa;border-radius:8px}
+    input,select,button{box-sizing:border-box;width:100%;padding:10px;margin:6px 0;font-size:16px}
+    #answer{font-size:20px;font-weight:bold}
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <h2>JavaScript Calculator</h2>
+    <input id="number1" type="number" placeholder="First number">
+    <select id="operator">
+      <option value="+">Add (+)</option>
+      <option value="-">Subtract (-)</option>
+      <option value="*">Multiply (×)</option>
+      <option value="/">Divide (÷)</option>
+    </select>
+    <input id="number2" type="number" placeholder="Second number">
+    <button onclick="calculate()">Calculate</button>
+    <p id="answer">Answer:</p>
+  </div>
+  <script>
+    function calculate(){
+      const a = Number(document.getElementById("number1").value);
+      const b = Number(document.getElementById("number2").value);
+      const op = document.getElementById("operator").value;
+      let result;
+
+      if(op === "+") result = a + b;
+      else if(op === "-") result = a - b;
+      else if(op === "*") result = a * b;
+      else if(op === "/") result = b === 0 ? "Cannot divide by zero" : a / b;
+
+      document.getElementById("answer").textContent = "Answer: " + result;
+    }
+  </script>
+</body>
+</html>
