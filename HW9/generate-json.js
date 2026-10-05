@@ -11,6 +11,15 @@ ANTHROPIC_API_KEY
 MAKE_WEBHOOK_URL
 */
 
+function parseJsonText(text) {
+  // If the model returns a fenced code block, remove the fences before parsing.
+  const cleaned = text
+    .trim()
+    .replace(/^\`\`\`(?:json)?\s*/i, "")
+    .replace(/\s*\`\`\`$/, "");
+  return JSON.parse(cleaned);
+}
+
 async function main() {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   const webhookUrl = process.env.MAKE_WEBHOOK_URL;
@@ -38,19 +47,29 @@ Topic: Give a short structured summary about three useful habits for learning we
       "anthropic-version": "2023-06-01"
     },
     body: JSON.stringify({
-      model: "claude-sonnet-4-5",
-      max_tokens: 500,
+      model: "claude-sonnet-5",
+      max_tokens: 800,
       messages: [{ role: "user", content: prompt }]
     })
   });
 
   if (!response.ok) {
-    throw new Error("Anthropic request failed: " + response.status + " " + await response.text());
+    throw new Error(
+      "Anthropic request failed: " +
+      response.status +
+      " " +
+      await response.text()
+    );
   }
 
   const result = await response.json();
-  const text = result.content[0].text;
-  const structured = JSON.parse(text);
+  const textBlock = result.content.find(block => block.type === "text");
+
+  if (!textBlock) {
+    throw new Error("Anthropic returned no text block.");
+  }
+
+  const structured = parseJsonText(textBlock.text);
 
   console.log("Structured JSON:", structured);
 
