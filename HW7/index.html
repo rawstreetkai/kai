@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>HW7 - Reverse Words</title></head>
+<body>
+  <h1>Homework 7 — Reverse String Word by Word</h1>
+  <input id="sentence" value="I love New York" style="width:320px">
+  <button onclick="run()">Reverse</button>
+  <p id="output"></p>
+<script>
+function reverseString(text) {
+  return text.trim().split(/\s+/).reverse().join(" ");
+}
+function run(){
+  const text = document.getElementById("sentence").value;
+  document.getElementById("output").textContent =
+    'reverseString("' + text + '") = "' + reverseString(text) + '"';
+}
+run();
+</script>
+</body>
+</html>
