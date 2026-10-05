@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HW4 - Location Selector</title>
+  <style>
+    body{font-family:Arial,sans-serif;max-width:700px;margin:40px auto;padding:20px}
+    label{display:block;margin-top:14px;font-weight:bold}
+    select{width:100%;padding:9px;margin-top:5px}
+    #result{margin-top:24px;padding:14px;background:#f2f2f2}
+  </style>
+</head>
+<body>
+  <h1>State → City → County → Village</h1>
+  <label>State<select id="state"></select></label>
+  <label>City<select id="city"></select></label>
+  <label>County<select id="county"></select></label>
+  <label>Village<select id="village"></select></label>
+  <div id="result"></div>
+
+<script>
+const data = {
+  "New York": {
+    "New York City": {
+      "New York County": ["Greenwich Village","East Village","Harlem"],
+      "Kings County": ["Brooklyn Heights","Park Slope","Williamsburg"],
+      "Queens County": ["Astoria","Flushing","Forest Hills"]
+    },
+    "Buffalo": {
+      "Erie County": ["Williamsville","Hamburg","Orchard Park"],
+      "Niagara County": ["Lewiston","Youngstown","Middleport"],
+      "Genesee County": ["Le Roy","Oakfield","Bergen"]
+    },
+    "Albany": {
+      "Albany County": ["Colonie","Voorheesville","Menands"],
+      "Schenectady County": ["Scotia","Delanson","Duanesburg"],
+      "Rensselaer County": ["Nassau","Castleton-on-Hudson","East Nassau"]
+    }
+  },
+  "California": {
+    "Los Angeles": {
+      "Los Angeles County": ["Beverly Hills","Culver City","Santa Monica"],
+      "Orange County": ["Anaheim","Fullerton","Orange"],
+      "Ventura County": ["Ojai","Fillmore","Santa Paula"]
+    },
+    "San Diego": {
+      "San Diego County": ["La Mesa","Lemon Grove","Coronado"],
+      "Riverside County": ["Hemet","Perris","Menifee"],
+      "Imperial County": ["Brawley","Calipatria","Holtville"]
+    },
+    "San Francisco": {
+      "San Francisco County": ["Presidio","Noe Valley","Sea Cliff"],
+      "San Mateo County": ["Atherton","Woodside","Colma"],
+      "Marin County": ["Sausalito","Tiburon","Fairfax"]
+    }
+  },
+  "Florida": {
+    "Miami": {
+      "Miami-Dade County": ["Pinecrest","Palmetto Bay","Miami Shores"],
+      "Broward County": ["Davie","Sea Ranch Lakes","Lazy Lake"],
+      "Monroe County": ["Islamorada","Key Colony Beach","Layton"]
+    },
+    "Orlando": {
+      "Orange County": ["Windermere","Oakland","Eatonville"],
+      "Seminole County": ["Oviedo","Longwood","Lake Mary"],
+      "Osceola County": ["Celebration","Kissimmee","St. Cloud"]
+    },
+    "Tampa": {
+      "Hillsborough County": ["Temple Terrace","Plant City","Sun City Center"],
+      "Pinellas County": ["Belleair","Kenneth City","North Redington Beach"],
+      "Pasco County": ["Zephyrhills","Dade City","San Antonio"]
+    }
+  }
+};
+
+const state = document.getElementById("state");
+const city = document.getElementById("city");
+const county = document.getElementById("county");
+const village = document.getElementById("village");
+const result = document.getElementById("result");
+
+function fill(select, values){
+  select.innerHTML = "";
+  values.forEach(value => {
+    const option = document.createElement("option");
+    option.value = option.textContent = value;
+    select.appendChild(option);
+  });
+}
+
+function loadStates(){ fill(state, Object.keys(data)); loadCities(); }
+function loadCities(){ fill(city, Object.keys(data[state.value])); loadCounties(); }
+function loadCounties(){ fill(county, Object.keys(data[state.value][city.value])); loadVillages(); }
+function loadVillages(){
+  fill(village, data[state.value][city.value][county.value]);
+  showResult();
+}
+function showResult(){
+  result.textContent = state.value + " → " + city.value + " → " + county.value + " → " + village.value;
+}
+state.addEventListener("change", loadCities);
+city.addEventListener("change", loadCounties);
+county.addEventListener("change", loadVillages);
+village.addEventListener("change", showResult);
+loadStates();
+</script>
+</body>
+</html>
