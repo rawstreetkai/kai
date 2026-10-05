@@ -1,0 +1,9 @@
+{
+  "subject": "Three Useful Habits for Learning Web Programming",
+  "summary": "Consistent practice, debugging, and reading code help build stronger web-programming skills.",
+  "bullets": [
+    "Practice small HTML, CSS, and JavaScript examples regularly.",
+    "Use the browser and VS Code debugger to understand errors.",
+    "Read and explain your own code so you understand what each section does."
+  ]
+}
