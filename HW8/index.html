@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>HW8 - NY Times Search</title>
+  <style>
+    body{font-family:Arial,sans-serif;max-width:800px;margin:40px auto;padding:0 20px}
+    input,button{padding:9px;margin:4px 0}.article{border-bottom:1px solid #ddd;padding:12px 0}
+  </style>
+</head>
+<body>
+  <h1>New York Times Article Search</h1>
+  <p>Enter your NY Times API key and a search term.</p>
+  <input id="apiKey" type="password" placeholder="NY Times API key" style="width:360px"><br>
+  <input id="query" value="New York" style="width:260px">
+  <button onclick="searchNYT()">Search</button>
+  <p id="status"></p>
+  <div id="results"></div>
+<script>
+async function searchNYT(){
+  const apiKey = document.getElementById("apiKey").value.trim();
+  const query = document.getElementById("query").value.trim();
+  const status = document.getElementById("status");
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+
+  if(!apiKey || !query){
+    status.textContent = "Please enter an API key and search term.";
+    return;
+  }
+
+  status.textContent = "Searching...";
+  try{
+    const url = "https://api.nytimes.com/svc/search/v2/articlesearch.json?q=" +
+      encodeURIComponent(query) + "&api-key=" + encodeURIComponent(apiKey);
+    const response = await fetch(url);
+    if(!response.ok) throw new Error("Request failed: " + response.status);
+    const data = await response.json();
+    const docs = data.response.docs.slice(0, 10);
+
+    status.textContent = "Found " + docs.length + " results.";
+    docs.forEach(article => {
+      const div = document.createElement("div");
+      div.className = "article";
+      const h2 = document.createElement("h2");
+      h2.textContent = article.headline.main;
+      const p = document.createElement("p");
+      p.textContent = article.abstract || article.snippet || "No summary available.";
+      const a = document.createElement("a");
+      a.href = article.web_url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = "Read article";
+      div.append(h2,p,a);
+      results.appendChild(div);
+    });
+  }catch(error){
+    status.textContent = error.message;
+  }
+}
+</script>
+</body>
+</html>
