@@ -2,7 +2,7 @@
   "name": "cisc2350-hw9",
   "private": true,
   "version": "1.0.0",
-  "description": "Anthropic structured JSON to Make.com webhook",
+  "description": "OpenAI structured JSON to Make.com webhook",
   "scripts": {
     "start": "node generate-json.js"
   },
