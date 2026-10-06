@@ -9,12 +9,12 @@
 - [x] HW6 — capital letters moved to the front using regex
 - [x] HW7 — reverse a sentence word-by-word
 - [x] HW8 — New York Times Article Search page
-- [x] HW9 — Anthropic structured JSON → Make.com webhook code and setup guide
+- [x] HW9 — OpenAI structured JSON → Make.com webhook code and setup guide
 
-## External account items that cannot be stored in a public repository
-- HW8 needs a valid New York Times API key at run time.
-- HW9 needs an Anthropic API key and a Make.com Custom Webhook URL.
-- These secrets are intentionally excluded from GitHub.
+## External service configuration
+- HW8 uses `NYT_API_KEY` as a GitHub Actions secret.
+- HW9 uses `OPENAI_API_KEY` and `MAKE_WEBHOOK_URL` as GitHub Actions secrets.
+- Secret values are intentionally excluded from this public repository.
 
 ## Security
 The root .gitignore excludes local .env and secret/key files.
