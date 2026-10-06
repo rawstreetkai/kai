@@ -1,0 +1,38 @@
+name: Verify HW9 OpenAI to Make.com
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - VERIFY_HW9.txt
+
+permissions:
+  contents: write
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run HW9 pipeline
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          MAKE_WEBHOOK_URL: ${{ secrets.MAKE_WEBHOOK_URL }}
+        run: node HW9/generate-json.js
+
+      - name: Mark successful verification
+        run: |
+          printf "HW9 OpenAI -> Make.com verification succeeded.\n" > HW9/VERIFIED.txt
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add HW9/VERIFIED.txt
+          git commit -m "Mark HW9 verification successful" || exit 0
+          git push
