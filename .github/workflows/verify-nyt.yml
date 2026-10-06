@@ -1,0 +1,25 @@
+name: Verify NY Times API
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - VERIFY_NYT.txt
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Verify NY Times API
+        env:
+          NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
+        run: node HW8/test-api.js
