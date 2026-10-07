@@ -3,3 +3,4 @@ Trigger HW9 OpenAI to Make.com verification.
 Triggered 2026-10-07 for HW9 end-to-end test.
 Triggered again after new Make webhook was configured.
 Triggered after OPENAI_API_KEY was added.
+Triggered for Gmail/output verification.
