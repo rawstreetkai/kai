@@ -9,12 +9,19 @@
 - [x] HW6 — capital letters moved to the front using regex
 - [x] HW7 — reverse a sentence word-by-word
 - [x] HW8 — New York Times Article Search page
-- [x] HW9 — OpenAI structured JSON → Make.com webhook code and setup guide
+- [x] HW9 — structured JSON → Make.com → formatted email workflow
+
+## Verification
+- HW9: verified end-to-end through OpenAI → Make.com → email.
+- HW8: page and API verification script are present. GitHub Actions currently still needs the repository secret `NYT_API_KEY` before the automated API check can pass.
 
 ## External service configuration
-- HW8 uses `NYT_API_KEY` as a GitHub Actions secret.
+- HW8 requires `NYT_API_KEY` as a GitHub Actions secret.
 - HW9 uses `OPENAI_API_KEY` and `MAKE_WEBHOOK_URL` as GitHub Actions secrets.
 - Secret values are intentionally excluded from this public repository.
+
+## Course requirement note
+The original HW9 wording names Anthropic. The current implementation uses OpenAI for the same structured JSON → Make.com → formatted-delivery pipeline.
 
 ## Security
 The root .gitignore excludes local .env and secret/key files.
