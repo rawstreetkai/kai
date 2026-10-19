@@ -12,8 +12,8 @@
 - [x] HW9 — structured JSON → Make.com → formatted email workflow
 
 ## Verification
-- HW8: NY Times API verification succeeded in GitHub Actions after configuring the repository secret `NYT_API_KEY`.
-- HW9: verified end-to-end through OpenAI → Make.com → email.
+- HW8: NY Times API verification succeeded and GitHub Actions generated `HW8/results.html` containing 10 article results without publishing the API key.
+- HW9: previously verified end-to-end through OpenAI → Make.com → email. A separate OpenAI run generated `HW9/results.html` without calling Make; Make-side HTML-file delivery is not yet configured.
 
 ## External service configuration
 - HW8 requires `NYT_API_KEY` as a GitHub Actions secret.
