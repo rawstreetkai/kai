@@ -1,0 +1,41 @@
+name: Generate HW9 HTML Preview
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - review/hw8-hw9-feedback
+    paths:
+      - .github/workflows/generate-hw9-html.yml
+
+permissions:
+  contents: write
+
+jobs:
+  render:
+    if: github.ref == 'refs/heads/review/hw8-hw9-feedback'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate real OpenAI JSON and render HTML only
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          HTML_ONLY: "1"
+        run: node HW9/generate-json.js
+
+      - name: Commit HTML result
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add HW9/results.html
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: update HW9 HTML from OpenAI JSON"
+            git push
+          fi
