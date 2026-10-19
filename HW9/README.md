@@ -1,38 +1,42 @@
-# Homework 9 — OpenAI Structured JSON → Make.com → HTML Output
+# Homework 9 — Structured JSON to Formatted Output
 
-> The original syllabus specifies Anthropic API. This implementation uses OpenAI instead; the provider difference is disclosed rather than represented as Anthropic.
+## Assignment flow
 
-## What it does
-1. `generate-json.js` requests strict structured JSON with `subject`, `summary`, and `bullets`.
-2. `render-html.js` formats that JSON as an HTML document with escaped text.
-3. `generate-json.js` writes the response to `results.html`.
-4. The Make.com webhook receives the original fields and an extra `html` field for optional HTML file delivery. The existing Gmail delivery remains available.
+1. `generate-json.js` calls the OpenAI Responses API and parses a JSON object with `subject`, `summary`, and `bullets`.
+2. `render-html.js` converts that JSON into an HTML document.
+3. `results.html` contains HTML generated from a successful API run.
+4. The Make.com custom webhook receives the JSON data and an `html` field. The existing Make.com scenario delivers a formatted email.
 
 ## Files
-- `generate-json.js` — OpenAI API call, JSON extraction, HTML output, and Make webhook.
-- `render-html.js` — JSON-to-HTML renderer, runnable on its own.
-- `results.html` — currently a real generated result from an OpenAI API run in GitHub Actions (HTML-only mode, with no Make webhook call). Running the generator again can update it.
-- `sample-output.json` — illustrative JSON data.
-- `package.json` — Node configuration.
 
-## Review the HTML locally (no API keys required)
-From the repository root:
+| File | Purpose |
+| --- | --- |
+| [generate-json.js](generate-json.js) | Request JSON and pass it to the HTML renderer and Make webhook |
+| [render-html.js](render-html.js) | Render JSON as HTML |
+| [results.html](results.html) | Generated HTML result |
+| [sample-output.json](sample-output.json) | Example structured JSON |
+| [package.json](package.json) | Node.js run configuration |
+
+## How to view the result
+
+Open or download `results.html` in a browser.
+
+To generate a local HTML page from the example JSON, run:
 
 ```bash
 node HW9/render-html.js
 ```
 
-Then open `HW9/results.html` in a browser.
+To generate output from the API without calling Make.com, configure `OPENAI_API_KEY` and run:
 
-## Run the complete API → Make.com workflow
-Keep these values only in environment variables / GitHub Actions secrets:
-- `OPENAI_API_KEY`
-- `MAKE_WEBHOOK_URL`
+```bash
+HTML_ONLY=1 node HW9/generate-json.js
+```
 
-Run `node HW9/generate-json.js` in the environment where these are set. It generates HTML before calling the Make webhook.
+For the complete webhook run, configure `OPENAI_API_KEY` and `MAKE_WEBHOOK_URL`, then run `node HW9/generate-json.js`. The existing Make.com scenario is set up for email delivery; creating an HTML file *inside Make.com* requires an additional Make module and has not been verified.
 
-## Make.com HTML file delivery
-The existing Make scenario delivers email. The webhook payload now also includes an `html` field. If the assignment requires Make to create the HTML file, add a file-creation step after the webhook, name it `hw9-results.html`, and map the `html` field into its file contents. This Make-side change must be configured and tested in the Make scenario; the existing scenario currently delivers email.
+## Assignment requirement to confirm
 
-## Security
-Never commit keys or private webhook URLs. Do not represent the checked-in preview as an authenticated new API run.
+The original HW9 instructions specify **Anthropic API**. This implementation currently uses **OpenAI API**. The provider difference requires instructor approval or a change to the implementation.
+
+Keep API keys and private webhook URLs outside committed source files.
