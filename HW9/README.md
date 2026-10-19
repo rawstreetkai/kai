@@ -1,42 +1,38 @@
-# Homework 9 — OpenAI structured JSON → Make.com → Formatted Email/File
+# Homework 9 — OpenAI Structured JSON → Make.com → HTML Output
 
-> The original syllabus names the Anthropic API. This implementation uses the OpenAI API instead because the student already has funded OpenAI API access. The automation pattern remains the same: AI API → structured JSON → Make.com → formatted destination.
+> The original syllabus specifies Anthropic API. This implementation uses OpenAI instead; the provider difference is disclosed rather than represented as Anthropic.
 
-## Goal
-Generate structured JSON with the OpenAI Responses API, send that JSON into Make.com, and use Make.com to deliver a formatted email or file.
+## What it does
+1. `generate-json.js` requests strict structured JSON with `subject`, `summary`, and `bullets`.
+2. `render-html.js` formats that JSON as an HTML document with escaped text.
+3. `generate-json.js` writes the response to `results.html`.
+4. The Make.com webhook receives the original fields and an extra `html` field for optional HTML file delivery. The existing Gmail delivery remains available.
 
 ## Files
-- `generate-json.js` — calls OpenAI, parses strict structured JSON, and posts it to the Make.com webhook.
-- `sample-output.json` — example JSON shape.
-- `package.json` — run configuration.
+- `generate-json.js` — OpenAI API call, JSON extraction, HTML output, and Make webhook.
+- `render-html.js` — JSON-to-HTML renderer, runnable on its own.
+- `results.html` — initially a preview of `sample-output.json`. A successful OpenAI API run regenerates it with live output. Commit the updated HTML if your instructor should view that result in GitHub.
+- `sample-output.json` — illustrative JSON data.
+- `package.json` — Node configuration.
 
-## Required GitHub Actions secrets
+## Review the HTML locally (no API keys required)
+From the repository root:
+
+```bash
+node HW9/render-html.js
+```
+
+Then open `HW9/results.html` in a browser.
+
+## Run the complete API → Make.com workflow
+Keep these values only in environment variables / GitHub Actions secrets:
 - `OPENAI_API_KEY`
 - `MAKE_WEBHOOK_URL`
 
-## Make.com scenario
-1. First module: **Webhooks → Custom webhook**.
-2. Add an email/file-delivery module after it.
-3. Map the incoming fields:
-   - `subject`
-   - `summary`
-   - `bullets[]`
-4. Turn the scenario on, or use **Run once** while testing.
+Run `node HW9/generate-json.js` in the environment where these are set. It generates HTML before calling the Make webhook.
 
-## Example formatted email
-
-**Subject:** `{{subject}}`
-
-`{{summary}}`
-
-- `{{bullets[1]}}`
-- `{{bullets[2]}}`
-- `{{bullets[3]}}`
-
-## Local test
-```bash
-OPENAI_API_KEY="..." MAKE_WEBHOOK_URL="..." node generate-json.js
-```
+## Make.com HTML file delivery
+The webhook payload includes an `html` field. If the assignment requires Make to create the HTML file, add a file-creation step after the webhook, name it `hw9-results.html`, and map the `html` field into its file contents. This Make-side change must be configured and tested in the Make scenario; the existing scenario currently delivers email.
 
 ## Security
-Never commit API keys or private webhook URLs. They belong in environment variables or GitHub Actions secrets.
+Never commit keys or private webhook URLs. Do not represent the checked-in preview as an authenticated new API run.
