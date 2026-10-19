@@ -29,9 +29,10 @@ function extractOutputText(response) {
 async function main() {
   const apiKey = process.env.OPENAI_API_KEY;
   const webhookUrl = process.env.MAKE_WEBHOOK_URL;
+  const htmlOnly = process.env.HTML_ONLY === "1";
 
-  if (!apiKey || !webhookUrl) {
-    throw new Error("Set OPENAI_API_KEY and MAKE_WEBHOOK_URL first.");
+  if (!apiKey || (!webhookUrl && !htmlOnly)) {
+    throw new Error("Set OPENAI_API_KEY and MAKE_WEBHOOK_URL first (or use HTML_ONLY=1).");
   }
 
   const response = await fetch("https://api.openai.com/v1/responses", {
@@ -82,6 +83,11 @@ async function main() {
 
   console.log("Structured JSON:", JSON.stringify(structured, null, 2));
   console.log("HTML result saved to HW9/results.html");
+
+  if (htmlOnly) {
+    console.log("HTML_ONLY=1: Make.com webhook was not called.");
+    return;
+  }
 
   const makeResponse = await fetch(webhookUrl, {
     method: "POST",
