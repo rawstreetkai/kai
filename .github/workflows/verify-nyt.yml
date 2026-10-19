@@ -1,11 +1,18 @@
-name: Verify NY Times API
+name: Verify NY Times API and Render Results
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
+      - review/hw8-hw9-feedback
     paths:
       - VERIFY_NYT.txt
+      - HW8/test-api.js
+      - .github/workflows/verify-nyt.yml
+
+permissions:
+  contents: write
 
 jobs:
   verify:
@@ -19,7 +26,17 @@ jobs:
         with:
           node-version: "20"
 
-      - name: Verify NY Times API
+      - name: Verify NY Times API and generate results HTML
         env:
           NYT_API_KEY: ${{ secrets.NYT_API_KEY }}
         run: node HW8/test-api.js
+
+      - name: Commit safe HTML snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add HW8/results.html
+          if ! git diff --cached --quiet; then
+            git commit -m "docs: refresh NY Times API results HTML"
+            git push
+          fi
