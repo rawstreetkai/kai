@@ -1,3 +1,7 @@
+const { renderHtml } = require("./render-html");
+const { writeFile } = require("node:fs/promises");
+const path = require("node:path");
+
 /*
 HW9 pipeline (OpenAI version):
 1. Ask the OpenAI Responses API for structured JSON.
@@ -73,13 +77,16 @@ async function main() {
 
   const result = await response.json();
   const structured = JSON.parse(extractOutputText(result));
+  const html = renderHtml(structured);
+  await writeFile(path.join(__dirname, "results.html"), html, "utf8");
 
   console.log("Structured JSON:", JSON.stringify(structured, null, 2));
+  console.log("HTML result saved to HW9/results.html");
 
   const makeResponse = await fetch(webhookUrl, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(structured)
+    body: JSON.stringify({ ...structured, html })
   });
 
   if (!makeResponse.ok) {
