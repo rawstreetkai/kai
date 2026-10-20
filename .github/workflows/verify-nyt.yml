@@ -1,11 +1,7 @@
 name: Verify NY Times API
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - VERIFY_NYT.txt
+  workflow_dispatch:
 
 jobs:
   verify:
@@ -14,7 +10,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Set up Node
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"

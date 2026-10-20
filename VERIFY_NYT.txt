@@ -1,2 +1,0 @@
-Trigger NY Times API verification.
-Recheck before submission on 2026-10-07.
