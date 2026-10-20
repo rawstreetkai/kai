@@ -1,0 +1,49 @@
+name: Publish HW9 Web Page
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - HW9/results.html
+      - .github/workflows/publish-hw9-pages.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: hw9-pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Prepare HTML site
+        run: |
+          mkdir -p _site/HW9
+          cp HW9/results.html _site/index.html
+          cp HW9/results.html _site/HW9/results.html
+          touch _site/.nojekyll
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Upload HTML site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
