@@ -1,42 +1,41 @@
-# Homework 9 — OpenAI structured JSON → Make.com → Formatted Email/File
+# Homework 9 — Structured JSON to HTML
 
-> The original syllabus names the Anthropic API. This implementation uses the OpenAI API instead because the student already has funded OpenAI API access. The automation pattern remains the same: AI API → structured JSON → Make.com → formatted destination.
+CISC 2350 · Fall 2026
 
-## Goal
-Generate structured JSON with the OpenAI Responses API, send that JSON into Make.com, and use Make.com to deliver a formatted email or file.
+## View the result
 
-## Files
-- `generate-json.js` — calls OpenAI, parses strict structured JSON, and posts it to the Make.com webhook.
-- `sample-output.json` — example JSON shape.
-- `package.json` — run configuration.
+Open [results.html](results.html) in a browser to view the formatted HTML output. The page displays a title, summary, and list of items generated from structured JSON.
 
-## Required GitHub Actions secrets
-- `OPENAI_API_KEY`
-- `MAKE_WEBHOOK_URL`
+## Program files
 
-## Make.com scenario
-1. First module: **Webhooks → Custom webhook**.
-2. Add an email/file-delivery module after it.
-3. Map the incoming fields:
-   - `subject`
-   - `summary`
-   - `bullets[]`
-4. Turn the scenario on, or use **Run once** while testing.
+- [results.html](results.html) — generated HTML result
+- [generate-json.js](generate-json.js) — requests structured JSON from the OpenAI API, saves HTML, and optionally sends data to Make.com
+- [render-html.js](render-html.js) — converts JSON data into HTML
+- [sample-output.json](sample-output.json) — JSON example for local testing
+- [package.json](package.json) — Node.js project configuration
 
-## Example formatted email
+## Run locally
 
-**Subject:** `{{subject}}`
+Generate an HTML page from the JSON example:
 
-`{{summary}}`
-
-- `{{bullets[1]}}`
-- `{{bullets[2]}}`
-- `{{bullets[3]}}`
-
-## Local test
 ```bash
-OPENAI_API_KEY="..." MAKE_WEBHOOK_URL="..." node generate-json.js
+node HW9/render-html.js
 ```
 
+Generate an HTML page using the OpenAI API (requires `OPENAI_API_KEY`):
+
+```bash
+HTML_ONLY=1 node HW9/generate-json.js
+```
+
+Send structured JSON to Make.com as well (requires `OPENAI_API_KEY` and `MAKE_WEBHOOK_URL`):
+
+```bash
+node HW9/generate-json.js
+```
+
+Make.com receives the structured fields and can use them to deliver a formatted email.
+
 ## Security
-Never commit API keys or private webhook URLs. They belong in environment variables or GitHub Actions secrets.
+
+API keys and webhook URLs are read from environment variables / repository secrets, not stored in the source files.
