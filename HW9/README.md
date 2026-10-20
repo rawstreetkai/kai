@@ -4,7 +4,7 @@ CISC 2350 · Fall 2026
 
 ## View the result
 
-Open [results.html](results.html) in a browser to view the formatted HTML output. The page displays a title, summary, and list of items generated from structured JSON.
+[Open the rendered HTML preview](https://htmlpreview.github.io/?https://github.com/rawstreetkai/kai/blob/main/HW9/results.html) to view the formatted result directly in a browser. The source file is [results.html](results.html). The page displays a title, summary, and list of items generated from structured JSON.
 
 ## Program files
 
