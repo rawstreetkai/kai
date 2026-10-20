@@ -6,7 +6,8 @@ Fall 2026 · Homework 1–9
 
 ## Homework 9
 
-- [Rendered HTML result](HW9/results.html)
+- [Open rendered HTML page](https://htmlpreview.github.io/?https://github.com/rawstreetkai/kai/blob/main/HW9/results.html)
+- [HTML result file](HW9/results.html)
 - [JavaScript source](HW9/generate-json.js)
 - [HTML renderer](HW9/render-html.js)
 - [Run instructions](HW9/README.md)
